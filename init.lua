@@ -83,7 +83,6 @@ I hope you enjoy your Neovim journey,
 
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
-
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -178,6 +177,13 @@ vim.keymap.set('n', '<A-1>', '<cmd>Ex<CR>')
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+-- Toggle previous & next buffers stored within Harpoon list
+vim.keymap.set('n', '<C-S-P>', function()
+  harpoon:list():prev()
+end)
+vim.keymap.set('n', '<C-S-N>', function()
+  harpoon:list():next()
+end)
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 -- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
@@ -259,6 +265,11 @@ require('lazy').setup({
     },
   },
 
+  {
+    'ThePrimeagen/harpoon',
+    branch = 'harpoon2',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+  },
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -956,6 +967,28 @@ require('lazy').setup({
   },
 })
 
+local harpoon = require 'harpoon'
+harpoon:setup()
+
+vim.keymap.set('n', '<leader>a', function()
+  harpoon:list():add()
+end)
+vim.keymap.set('n', '<C-e>', function()
+  harpoon.ui:toggle_quick_menu(harpoon:list())
+end)
+
+vim.keymap.set('n', '<A-1>', function()
+  harpoon:list():select(1)
+end)
+vim.keymap.set('n', '<A-2>', function()
+  harpoon:list():select(2)
+end)
+vim.keymap.set('n', '<A-3>', function()
+  harpoon:list():select(3)
+end)
+vim.keymap.set('n', '<A-4>', function()
+  harpoon:list():select(4)
+end)
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 vim.opt.colorcolumn = '80'
